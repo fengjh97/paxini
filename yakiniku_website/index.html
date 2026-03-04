@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>炭火焼肉 SUMIRE | Premium Yakiniku Tokyo</title>
+    <meta name="description" content="厳選されたA5和牛を備長炭で焼く、至高の焼肉体験。東京・渋谷の炭火焼肉 SUMIRE。">
+
+    <!-- Fonts: Distinctive choices per frontend-design skill guidelines -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Shippori+Mincho:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Film grain overlay -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <span class="logo-jp">炭火焼肉</span>
+                <span class="logo-en">SUMIRE</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#menu" class="nav-link">Menu</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#chef" class="nav-link">Chef</a>
+                <a href="#access" class="nav-link">Access</a>
+            </div>
+            <a href="#reserve" class="nav-reserve">
+                <span class="reserve-jp">ご予約</span>
+                <span class="reserve-en">Reserve</span>
+            </a>
+            <button class="nav-burger" id="navBurger" aria-label="Menu">
+                <span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <div class="hero-media">
+            <img src="images/hero.png" alt="Premium Wagyu on charcoal grill" class="hero-img">
+            <div class="hero-vignette"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-vertical-text" aria-hidden="true">炭火焼肉すみれ</div>
+            <div class="hero-center">
+                <p class="hero-tagline reveal">Since 2026 — Tokyo</p>
+                <h1 class="hero-title">
+                    <span class="reveal"><span class="hero-title-jp">炭火焼肉</span></span>
+                    <span class="reveal"><span class="hero-title-en">SUMIRE</span></span>
+                </h1>
+                <p class="hero-desc reveal">
+                    厳選A5和牛を、備長炭の炎で。<br>
+                    <span class="hero-desc-en">The finest Wagyu, kissed by Binchotan flame.</span>
+                </p>
+                <div class="hero-actions reveal">
+                    <a href="#menu" class="btn btn-gold">
+                        <span>お品書き</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+                    </a>
+                    <a href="#reserve" class="btn btn-outline">ご予約・お問合せ</a>
+                </div>
+            </div>
+            <div class="hero-scroll-hint">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </div>
+        <!-- Ember particles -->
+        <canvas id="emberCanvas" aria-hidden="true"></canvas>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section section-about" id="about">
+        <div class="container">
+            <div class="about-layout">
+                <div class="about-images">
+                    <div class="about-img-main reveal">
+                        <img src="images/charcoal.png" alt="Binchotan charcoal" loading="lazy">
+                    </div>
+                    <div class="about-img-accent reveal">
+                        <img src="images/atmosphere.png" alt="Grilling atmosphere" loading="lazy">
+                    </div>
+                </div>
+                <div class="about-text">
+                    <span class="section-label reveal">About Us</span>
+                    <h2 class="section-title reveal">
+                        炭と肉の<br><span class="gold">対話</span>
+                    </h2>
+                    <p class="section-subtitle reveal">A Dialogue Between Charcoal and Meat</p>
+                    <div class="about-body reveal">
+                        <p>
+                            SUMIREは、厳選されたA5ランク和牛と、紀州備長炭による本格炭火焼肉をお届けします。
+                            素材の力を最大限に引き出す「炭火」の技。一枚一枚、丁寧に焼き上げる至福の時間を。
+                        </p>
+                        <p>
+                            お客様一組一組に合わせた個室空間で、
+                            特別な夜をお過ごしください。
+                        </p>
+                    </div>
+                    <div class="about-features reveal">
+                        <div class="feature">
+                            <span class="feature-num">A5</span>
+                            <span class="feature-label">黒毛和牛</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-num">紀州</span>
+                            <span class="feature-label">備長炭使用</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-num">完全</span>
+                            <span class="feature-label">個室完備</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MENU ===== -->
+    <section class="section section-menu" id="menu">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-label reveal">Menu</span>
+                <h2 class="section-title reveal">お品書き</h2>
+                <p class="section-subtitle reveal">Our Curated Selection</p>
+            </div>
+
+            <!-- Menu Tabs -->
+            <div class="menu-tabs reveal">
+                <button class="menu-tab active" data-tab="course">コース</button>
+                <button class="menu-tab" data-tab="alacarte">単品</button>
+                <button class="menu-tab" data-tab="drinks">お飲み物</button>
+            </div>
+
+            <!-- Course Menu -->
+            <div class="menu-panel active" id="panel-course">
+                <div class="course-grid">
+                    <div class="course-card reveal">
+                        <div class="course-img">
+                            <img src="images/wagyu_closeup.png" alt="Premium Wagyu course" loading="lazy">
+                        </div>
+                        <div class="course-info">
+                            <span class="course-label">RECOMMENDED</span>
+                            <h3 class="course-name">匠 —Takumi—</h3>
+                            <p class="course-desc">
+                                厳選A5和牛5種盛り、前菜、サラダ、<br>焼き野菜、冷麺、デザート
+                            </p>
+                            <div class="course-items">
+                                <span>特選サーロイン</span>
+                                <span>シャトーブリアン</span>
+                                <span>特上カルビ</span>
+                                <span>上タン塩</span>
+                                <span>和牛ユッケ</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price-yen">¥</span>
+                                <span class="price-num">18,000</span>
+                                <span class="price-tax">(税込 ¥19,800)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card reveal">
+                        <div class="course-img">
+                            <img src="images/course_set.png" alt="Sumire course set" loading="lazy">
+                        </div>
+                        <div class="course-info">
+                            <span class="course-label">POPULAR</span>
+                            <h3 class="course-name">菫 —Sumire—</h3>
+                            <p class="course-desc">
+                                A5和牛3種盛り、前菜、サラダ、<br>焼き野菜、ビビンバ、デザート
+                            </p>
+                            <div class="course-items">
+                                <span>特選カルビ</span>
+                                <span>上ロース</span>
+                                <span>上タン塩</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price-yen">¥</span>
+                                <span class="price-num">12,000</span>
+                                <span class="price-tax">(税込 ¥13,200)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card reveal">
+                        <div class="course-img">
+                            <img src="images/grill_fire.png" alt="Grilling fire" loading="lazy">
+                        </div>
+                        <div class="course-info">
+                            <span class="course-label">CASUAL</span>
+                            <h3 class="course-name">焔 —Homura—</h3>
+                            <p class="course-desc">
+                                黒毛和牛&国産牛盛り合わせ、<br>前菜、サラダ、冷麺、デザート
+                            </p>
+                            <div class="course-items">
+                                <span>和牛カルビ</span>
+                                <span>和牛ロース</span>
+                                <span>タン塩</span>
+                                <span>ハラミ</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price-yen">¥</span>
+                                <span class="price-num">8,000</span>
+                                <span class="price-tax">(税込 ¥8,800)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A la carte (hidden by default) -->
+            <div class="menu-panel" id="panel-alacarte">
+                <div class="alacarte-grid">
+                    <div class="alacarte-category reveal">
+                        <h3 class="alacarte-cat-title">牛肉 <span>Beef</span></h3>
+                        <div class="alacarte-item"><span>特選サーロイン</span><span class="alacarte-price">¥3,800</span></div>
+                        <div class="alacarte-item"><span>シャトーブリアン</span><span class="alacarte-price">¥4,500</span></div>
+                        <div class="alacarte-item"><span>特上カルビ</span><span class="alacarte-price">¥2,800</span></div>
+                        <div class="alacarte-item"><span>上ロース</span><span class="alacarte-price">¥2,500</span></div>
+                        <div class="alacarte-item"><span>上タン塩</span><span class="alacarte-price">¥2,200</span></div>
+                        <div class="alacarte-item"><span>ハラミ</span><span class="alacarte-price">¥1,800</span></div>
+                        <div class="alacarte-item"><span>和牛ユッケ</span><span class="alacarte-price">¥1,600</span></div>
+                    </div>
+                    <div class="alacarte-category reveal">
+                        <h3 class="alacarte-cat-title">一品 <span>Side Dishes</span></h3>
+                        <div class="alacarte-item"><span>キムチ盛り合わせ</span><span class="alacarte-price">¥680</span></div>
+                        <div class="alacarte-item"><span>ナムル盛り合わせ</span><span class="alacarte-price">¥780</span></div>
+                        <div class="alacarte-item"><span>チョレギサラダ</span><span class="alacarte-price">¥880</span></div>
+                        <div class="alacarte-item"><span>石焼ビビンバ</span><span class="alacarte-price">¥1,280</span></div>
+                        <div class="alacarte-item"><span>冷麺</span><span class="alacarte-price">¥1,080</span></div>
+                    </div>
+                    <div class="alacarte-category reveal">
+                        <h3 class="alacarte-cat-title">〆・甘味 <span>Dessert</span></h3>
+                        <div class="alacarte-item"><span>抹茶アイス</span><span class="alacarte-price">¥580</span></div>
+                        <div class="alacarte-item"><span>柚子シャーベット</span><span class="alacarte-price">¥580</span></div>
+                        <div class="alacarte-item"><span>本日のデザート</span><span class="alacarte-price">¥880</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drinks (hidden by default) -->
+            <div class="menu-panel" id="panel-drinks">
+                <div class="drinks-layout reveal">
+                    <div class="drinks-img">
+                        <img src="images/drinks.png" alt="Premium Japanese drinks" loading="lazy">
+                    </div>
+                    <div class="drinks-list">
+                        <div class="alacarte-category">
+                            <h3 class="alacarte-cat-title">ビール <span>Beer</span></h3>
+                            <div class="alacarte-item"><span>プレミアムモルツ 生</span><span class="alacarte-price">¥680</span></div>
+                            <div class="alacarte-item"><span>エビス 瓶</span><span class="alacarte-price">¥780</span></div>
+                        </div>
+                        <div class="alacarte-category">
+                            <h3 class="alacarte-cat-title">日本酒 <span>Sake</span></h3>
+                            <div class="alacarte-item"><span>獺祭 純米大吟醸</span><span class="alacarte-price">¥1,280</span></div>
+                            <div class="alacarte-item"><span>十四代 本丸</span><span class="alacarte-price">¥1,800</span></div>
+                        </div>
+                        <div class="alacarte-category">
+                            <h3 class="alacarte-cat-title">ウイスキー <span>Whisky</span></h3>
+                            <div class="alacarte-item"><span>山崎12年 ハイボール</span><span class="alacarte-price">¥1,580</span></div>
+                            <div class="alacarte-item"><span>響 ロック</span><span class="alacarte-price">¥2,200</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY: Full-bleed horizontal scroll ===== -->
+    <section class="section section-gallery" id="gallery">
+        <div class="gallery-header">
+            <span class="section-label reveal">Gallery</span>
+            <h2 class="section-title reveal">空間と<span class="gold">美食</span></h2>
+        </div>
+        <div class="gallery-scroll">
+            <div class="gallery-track">
+                <div class="gallery-item"><img src="images/interior_main.png" alt="Interior" loading="lazy"><span class="gallery-caption">メインダイニング</span></div>
+                <div class="gallery-item"><img src="images/private_room.png" alt="Private room" loading="lazy"><span class="gallery-caption">完全個室</span></div>
+                <div class="gallery-item"><img src="images/wagyu_closeup.png" alt="Wagyu" loading="lazy"><span class="gallery-caption">A5和牛</span></div>
+                <div class="gallery-item"><img src="images/grill_fire.png" alt="Grill fire" loading="lazy"><span class="gallery-caption">炭火焼き</span></div>
+                <div class="gallery-item"><img src="images/course_set.png" alt="Course" loading="lazy"><span class="gallery-caption">匠コース</span></div>
+                <div class="gallery-item"><img src="images/dessert.png" alt="Dessert" loading="lazy"><span class="gallery-caption">甘味</span></div>
+                <div class="gallery-item"><img src="images/exterior_night.png" alt="Exterior" loading="lazy"><span class="gallery-caption">外観</span></div>
+            </div>
+        </div>
+        <div class="gallery-drag-hint reveal">← drag to explore →</div>
+    </section>
+
+    <!-- ===== CHEF ===== -->
+    <section class="section section-chef" id="chef">
+        <div class="container">
+            <div class="chef-layout">
+                <div class="chef-image reveal">
+                    <img src="images/chef.png" alt="Head Chef" loading="lazy">
+                    <div class="chef-image-frame"></div>
+                </div>
+                <div class="chef-text">
+                    <span class="section-label reveal">Chef</span>
+                    <h2 class="section-title reveal">料理長の<span class="gold">想い</span></h2>
+                    <p class="section-subtitle reveal">A Message from Our Chef</p>
+                    <blockquote class="chef-quote reveal">
+                        「一切れの肉に、炭の香りと職人の技を。<br>
+                        お客様の笑顔が、私たちの何よりの喜びです。」
+                    </blockquote>
+                    <div class="chef-name reveal">
+                        <span class="chef-name-jp">料理長 田中 誠一</span>
+                        <span class="chef-name-en">Seiichi Tanaka — Head Chef</span>
+                    </div>
+                    <p class="chef-bio reveal">
+                        東京の名店で15年の修行を積み、2026年にSUMIREを創業。
+                        和牛の目利きと炭火焼きの技術には定評がある。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RESERVATION CTA ===== -->
+    <section class="section section-reserve" id="reserve">
+        <div class="reserve-bg">
+            <img src="images/exterior_night.png" alt="" loading="lazy">
+        </div>
+        <div class="reserve-overlay"></div>
+        <div class="container reserve-content">
+            <h2 class="reserve-title reveal">
+                <span class="reserve-title-jp">ご予約</span>
+                <span class="reserve-title-en">Reservation</span>
+            </h2>
+            <p class="reserve-desc reveal">
+                お電話またはオンラインにてご予約を承っております。<br>
+                <span class="reserve-desc-en">We accept reservations by phone or online.</span>
+            </p>
+            <div class="reserve-methods reveal">
+                <a href="tel:03-1234-5678" class="reserve-card">
+                    <span class="reserve-card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    </span>
+                    <span class="reserve-card-label">お電話</span>
+                    <span class="reserve-card-value">03-1234-5678</span>
+                    <span class="reserve-card-note">受付 15:00〜23:00</span>
+                </a>
+                <a href="#" class="reserve-card">
+                    <span class="reserve-card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </span>
+                    <span class="reserve-card-label">オンライン予約</span>
+                    <span class="reserve-card-value">TableCheck</span>
+                    <span class="reserve-card-note">24時間受付</span>
+                </a>
+                <a href="#" class="reserve-card">
+                    <span class="reserve-card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                    </span>
+                    <span class="reserve-card-label">LINE</span>
+                    <span class="reserve-card-value">@sumire-yakiniku</span>
+                    <span class="reserve-card-note">お気軽にどうぞ</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ACCESS ===== -->
+    <section class="section section-access" id="access">
+        <div class="container">
+            <div class="access-layout">
+                <div class="access-info">
+                    <span class="section-label reveal">Access</span>
+                    <h2 class="section-title reveal">店舗情報</h2>
+                    <dl class="access-details reveal">
+                        <div class="access-row">
+                            <dt>店名</dt>
+                            <dd>炭火焼肉 SUMIRE（すみれ）</dd>
+                        </div>
+                        <div class="access-row">
+                            <dt>住所</dt>
+                            <dd>〒150-0002<br>東京都渋谷区渋谷3-1-1<br>渋谷駅前ビル B1F</dd>
+                        </div>
+                        <div class="access-row">
+                            <dt>最寄駅</dt>
+                            <dd>JR渋谷駅 新南口 徒歩3分</dd>
+                        </div>
+                        <div class="access-row">
+                            <dt>営業時間</dt>
+                            <dd>
+                                ランチ 11:30〜14:00（L.O. 13:30）<br>
+                                ディナー 17:00〜23:00（L.O. 22:00）
+                            </dd>
+                        </div>
+                        <div class="access-row">
+                            <dt>定休日</dt>
+                            <dd>月曜日（祝日の場合は翌火曜日）</dd>
+                        </div>
+                        <div class="access-row">
+                            <dt>座席数</dt>
+                            <dd>42席（個室6室）</dd>
+                        </div>
+                        <div class="access-row">
+                            <dt>電話</dt>
+                            <dd><a href="tel:03-1234-5678">03-1234-5678</a></dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="access-map reveal">
+                    <div class="map-placeholder">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.7477!2d139.7016!3d35.6580!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDM5JzI4LjgiTiAxMznCsDQyJzA1LjgiRQ!5e0!3m2!1sja!2sjp!4v1" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="logo-jp">炭火焼肉</span>
+                    <span class="logo-en">SUMIRE</span>
+                </div>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" aria-label="LINE">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.82 2 10.4c0 3.41 2.67 6.35 6.55 7.45-.26.9-.93 3.26-.97 3.46 0 0-.02.17.09.24.11.06.23.01.23.01.31-.04 3.55-2.34 4.1-2.73V19c5.52 0 10-3.82 10-8.6C22 5.82 17.52 2 12 2z"/></svg>
+                    </a>
+                    <a href="#" aria-label="Tabelog">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 炭火焼肉 SUMIRE. All rights reserved.</p>
+                <p class="footer-powered">Images by Nano Banana Pro (gemini-3-pro-image-preview) | Design by Claude AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
