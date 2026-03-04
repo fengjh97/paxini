@@ -3,6 +3,8 @@ generate_image.py
 generate_web_images.py
 regenerate_ppt_images.py
 yakiniku_website/generate_images.py
+hotel_website/generate_images.py
+salon_website/generate_images.py
 
 # === Python ===
 __pycache__/
@@ -19,6 +21,10 @@ venv/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# === Generated / Temp ===
+generated_images/
+image_gen_progress.log
 
 # === Claude Code ===
 .claude/

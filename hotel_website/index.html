@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="旅亭 花月 KAGETSU — 禅の静寂に包まれた、日本の美と心を感じる宿。A contemplative Japanese ryokan where wabi-sabi stillness meets omotenashi hospitality.">
+  <title>旅亭 花月 KAGETSU | 禅の静寂</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-follower" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="site-header" id="siteHeader">
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+      <a href="#hero" class="nav__logo" aria-label="旅亭 花月 トップへ">
+        <span class="nav__logo-jp">花月</span>
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#concept" data-nav-text="About">趣旨</a></li>
+        <li><a href="#rooms" data-nav-text="Rooms">客室</a></li>
+        <li><a href="#onsen" data-nav-text="Onsen">温泉</a></li>
+        <li><a href="#dining" data-nav-text="Dining">お食事</a></li>
+        <li><a href="#experience" data-nav-text="Experience">過ごし方</a></li>
+        <li><a href="#gallery" data-nav-text="Gallery">景</a></li>
+        <li><a href="#seasonal" data-nav-text="Seasons">季節</a></li>
+        <li><a href="#access" data-nav-text="Access">交通</a></li>
+      </ul>
+      <a href="#reservation" class="nav__reserve-btn">ご予約</a>
+      <button class="nav__toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+        <span class="nav__toggle-text">Menu</span>
+        <span class="nav__toggle-line"></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <div class="mobile-nav__inner">
+        <div class="mobile-nav__brand">
+          <span class="mobile-nav__kanji">旅亭 花月</span>
+          <span class="mobile-nav__en">KAGETSU</span>
+        </div>
+        <ul class="mobile-nav__links">
+          <li><a href="#concept"><span class="mobile-nav__jp">趣旨</span><span class="mobile-nav__label">Concept</span></a></li>
+          <li><a href="#rooms"><span class="mobile-nav__jp">客室</span><span class="mobile-nav__label">Rooms</span></a></li>
+          <li><a href="#onsen"><span class="mobile-nav__jp">温泉</span><span class="mobile-nav__label">Onsen</span></a></li>
+          <li><a href="#dining"><span class="mobile-nav__jp">お食事</span><span class="mobile-nav__label">Dining</span></a></li>
+          <li><a href="#experience"><span class="mobile-nav__jp">過ごし方</span><span class="mobile-nav__label">Experience</span></a></li>
+          <li><a href="#gallery"><span class="mobile-nav__jp">景</span><span class="mobile-nav__label">Gallery</span></a></li>
+          <li><a href="#seasonal"><span class="mobile-nav__jp">季節</span><span class="mobile-nav__label">Seasons</span></a></li>
+          <li><a href="#access"><span class="mobile-nav__jp">交通</span><span class="mobile-nav__label">Access</span></a></li>
+        </ul>
+        <a href="#reservation" class="mobile-nav__reserve">ご予約 &mdash; Reserve</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero__bg">
+      <div class="hero__image-wrap">
+        <img src="images/hero.png" alt="旅亭 花月の外観 — 夕暮れに佇む数寄屋造りの玄関" class="hero__image" loading="eager">
+      </div>
+      <div class="hero__mist hero__mist--1" aria-hidden="true"></div>
+      <div class="hero__mist hero__mist--2" aria-hidden="true"></div>
+      <div class="hero__mist hero__mist--3" aria-hidden="true"></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+    </div>
+    <div class="hero__content">
+      <div class="hero__text-vertical" aria-hidden="true">
+        <span class="hero__vertical-char">旅</span>
+        <span class="hero__vertical-char">亭</span>
+        <span class="hero__vertical-divider"></span>
+        <span class="hero__vertical-char">花</span>
+        <span class="hero__vertical-char">月</span>
+      </div>
+      <div class="hero__text-main">
+        <p class="hero__tagline-jp reveal-text">禅の静寂に、身を委ねる</p>
+        <h1 class="hero__title">
+          <span class="hero__title-jp reveal-text">旅亭 花月</span>
+          <span class="hero__title-en reveal-text">KAGETSU</span>
+        </h1>
+        <p class="hero__subtitle reveal-text">Surrender to Zen stillness</p>
+      </div>
+    </div>
+    <div class="hero__scroll-indicator" aria-hidden="true">
+      <span class="hero__scroll-text">Scroll</span>
+      <span class="hero__scroll-line"></span>
+    </div>
+  </section>
+
+  <!-- ==================== CONCEPT / ABOUT ==================== -->
+  <section class="concept section" id="concept">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="concept__layout">
+      <div class="concept__vertical-label" aria-hidden="true">
+        <span>おもてなしの心</span>
+      </div>
+      <div class="concept__text-col">
+        <span class="section__label reveal-up">Concept</span>
+        <h2 class="section__title reveal-up">
+          <span class="section__title-jp">おもてなしの心</span>
+          <span class="section__title-en">The Heart of Hospitality</span>
+        </h2>
+        <div class="concept__body reveal-up">
+          <p>
+            花月が大切にしているのは、「間」の美学。余白のなかに宿る、静かな豊かさ。
+            数寄屋造りの空間には、自然の息吹が溶け込み、四季の移ろいが穏やかに流れます。
+          </p>
+          <p>
+            At Kagetsu, we cherish <em>ma</em> &mdash; the beauty of negative space.
+            Within stillness, you will discover a quiet abundance. Our sukiya-style architecture
+            breathes with nature, where the gentle passage of four seasons becomes your companion.
+          </p>
+          <p>
+            創業以来百余年、変わらぬおもてなしの心で、お客様をお迎えいたします。
+            日常を離れ、ただ在ることの贅沢を、どうぞお愉しみください。
+          </p>
+        </div>
+      </div>
+      <div class="concept__image-col">
+        <div class="concept__image-primary reveal-up">
+          <img src="images/lobby.png" alt="花月のロビー — 数寄屋造りの静寂な空間" loading="lazy">
+        </div>
+        <div class="concept__image-secondary reveal-up">
+          <img src="images/garden.png" alt="四季折々の日本庭園" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ROOMS (客室) ==================== -->
+  <section class="rooms section" id="rooms">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="section__header">
+      <span class="section__label reveal-up">Rooms</span>
+      <h2 class="section__title reveal-up">
+        <span class="section__title-jp">客室</span>
+        <span class="section__title-en">Guest Rooms</span>
+      </h2>
+      <p class="section__intro reveal-up">
+        畳の香り、障子越しの光、庭を渡る風。<br>
+        すべてが、ここだけの静寂を紡ぎます。
+      </p>
+    </div>
+
+    <div class="rooms__grid">
+      <!-- Room 1: Japanese Suite -->
+      <article class="room-card reveal-up" data-room="suite">
+        <div class="room-card__image-wrap">
+          <img src="images/room_tatami.png" alt="和室特別室 — 12.5畳+次の間の贅沢な空間" loading="lazy">
+          <span class="room-card__badge">特別室</span>
+        </div>
+        <div class="room-card__content">
+          <h3 class="room-card__title">
+            <span class="room-card__title-jp">和室特別室</span>
+            <span class="room-card__title-en">Japanese Suite</span>
+          </h3>
+          <p class="room-card__desc">
+            12.5畳の本間に次の間を備えた、最上級の和空間。
+            檜の香る専用露天風呂から、四季の庭を独り占め。
+          </p>
+          <ul class="room-card__features">
+            <li>12.5畳 + 次の間 6畳</li>
+            <li>専用露天風呂付</li>
+            <li>庭園ビュー</li>
+            <li>定員 2〜4名</li>
+          </ul>
+          <span class="room-card__price">
+            <span class="room-card__price-from">1泊2食付</span>
+            &yen;68,000〜 <small>/名</small>
+          </span>
+        </div>
+      </article>
+
+      <!-- Room 2: Standard Japanese -->
+      <article class="room-card reveal-up" data-room="standard">
+        <div class="room-card__image-wrap">
+          <img src="images/room_tatami.png" alt="和室 — 落ち着いた10畳の純和室" loading="lazy">
+        </div>
+        <div class="room-card__content">
+          <h3 class="room-card__title">
+            <span class="room-card__title-jp">和室</span>
+            <span class="room-card__title-en">Standard Japanese</span>
+          </h3>
+          <p class="room-card__desc">
+            純和風の趣を愉しむ、落ち着いた10畳の客室。
+            窓の向こうに広がる山並みが、心を解きほぐします。
+          </p>
+          <ul class="room-card__features">
+            <li>10畳</li>
+            <li>山側または庭側</li>
+            <li>定員 2〜3名</li>
+          </ul>
+          <span class="room-card__price">
+            <span class="room-card__price-from">1泊2食付</span>
+            &yen;42,000〜 <small>/名</small>
+          </span>
+        </div>
+      </article>
+
+      <!-- Room 3: Japanese-Western -->
+      <article class="room-card reveal-up" data-room="western">
+        <div class="room-card__image-wrap">
+          <img src="images/room_modern.png" alt="和洋室 — 和と洋が調和するモダンな空間" loading="lazy">
+        </div>
+        <div class="room-card__content">
+          <h3 class="room-card__title">
+            <span class="room-card__title-jp">和洋室</span>
+            <span class="room-card__title-en">Japanese-Western</span>
+          </h3>
+          <p class="room-card__desc">
+            畳の間とベッドルームが調和する、現代的な和の空間。
+            シモンズ製ベッドで、くつろぎのひとときを。
+          </p>
+          <ul class="room-card__features">
+            <li>6畳 + ツインベッド</li>
+            <li>シモンズ製ベッド</li>
+            <li>バリアフリー対応</li>
+            <li>定員 2〜3名</li>
+          </ul>
+          <span class="room-card__price">
+            <span class="room-card__price-from">1泊2食付</span>
+            &yen;48,000〜 <small>/名</small>
+          </span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== ONSEN (温泉) ==================== -->
+  <section class="onsen section" id="onsen">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="section__header">
+      <span class="section__label reveal-up">Onsen</span>
+      <h2 class="section__title reveal-up">
+        <span class="section__title-jp">温泉</span>
+        <span class="section__title-en">Hot Springs</span>
+      </h2>
+    </div>
+
+    <div class="onsen__split">
+      <div class="onsen__panel onsen__panel--outdoor reveal-up">
+        <div class="onsen__image-wrap">
+          <img src="images/onsen_outdoor.png" alt="露天風呂 — 星空の下で味わう至福のとき" loading="lazy">
+          <div class="onsen__steam" aria-hidden="true">
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+          </div>
+        </div>
+        <div class="onsen__panel-content">
+          <h3 class="onsen__panel-title">
+            <span class="onsen__panel-title-jp">露天風呂</span>
+            <span class="onsen__panel-title-en">Outdoor Rotenburo</span>
+          </h3>
+          <p>
+            山々に抱かれた露天風呂。夜は満天の星が湯面に映り、
+            朝は霧に包まれた幻想的な景色が広がります。
+            自家源泉かけ流しの湯が、旅の疲れを芯から癒します。
+          </p>
+        </div>
+      </div>
+
+      <div class="onsen__panel onsen__panel--indoor reveal-up">
+        <div class="onsen__image-wrap">
+          <img src="images/onsen_indoor.png" alt="内湯 — 檜造りの大浴場" loading="lazy">
+          <div class="onsen__steam" aria-hidden="true">
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+            <div class="onsen__steam-particle"></div>
+          </div>
+        </div>
+        <div class="onsen__panel-content">
+          <h3 class="onsen__panel-title">
+            <span class="onsen__panel-title-jp">内湯</span>
+            <span class="onsen__panel-title-en">Indoor Bath</span>
+          </h3>
+          <p>
+            総檜造りの大浴場。木の温もりに包まれながら、
+            源泉の恵みをゆっくりとお愉しみいただけます。
+            泉質はナトリウム塩化物泉、美肌の湯として名高い名湯です。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="onsen__info reveal-up">
+      <div class="onsen__info-item">
+        <span class="onsen__info-label">泉質</span>
+        <span class="onsen__info-value">ナトリウム塩化物泉</span>
+      </div>
+      <div class="onsen__info-item">
+        <span class="onsen__info-label">源泉温度</span>
+        <span class="onsen__info-value">62.5&deg;C</span>
+      </div>
+      <div class="onsen__info-item">
+        <span class="onsen__info-label">効能</span>
+        <span class="onsen__info-value">神経痛・筋肉痛・冷え性・美肌</span>
+      </div>
+      <div class="onsen__info-item">
+        <span class="onsen__info-label">入浴時間</span>
+        <span class="onsen__info-value">5:00 &ndash; 24:00</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DINING (お食事) ==================== -->
+  <section class="dining section" id="dining">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="section__header">
+      <span class="section__label reveal-up">Dining</span>
+      <h2 class="section__title reveal-up">
+        <span class="section__title-jp">お食事</span>
+        <span class="section__title-en">Cuisine</span>
+      </h2>
+      <p class="section__intro reveal-up">
+        器に盛られた、季節の物語。<br>
+        一皿一皿に、料理長の想いが宿ります。
+      </p>
+    </div>
+
+    <div class="dining__editorial">
+      <!-- Kaiseki Dinner -->
+      <div class="dining__feature dining__feature--kaiseki reveal-up">
+        <div class="dining__feature-image">
+          <img src="images/kaiseki.png" alt="月替わりの懐石料理 — 旬の素材を丁寧に仕立てた八寸" loading="lazy">
+        </div>
+        <div class="dining__feature-content">
+          <span class="dining__feature-label">夕食 &mdash; Dinner</span>
+          <h3 class="dining__feature-title">
+            <span class="dining__feature-title-jp">月替わり懐石</span>
+            <span class="dining__feature-title-en">Seasonal Kaiseki</span>
+          </h3>
+          <p>
+            地元の山海の幸を中心に、月替わりで仕立てる本格懐石。
+            先付から水菓子まで、全十二品。器との調和も、ひとつの味わいです。
+          </p>
+          <ul class="dining__course-list">
+            <li>先付 <span>Sakizuke</span></li>
+            <li>八寸 <span>Hassun</span></li>
+            <li>椀物 <span>Wanmono</span></li>
+            <li>向付 <span>Mukouzuke</span></li>
+            <li>焼物 <span>Yakimono</span></li>
+            <li>煮物 <span>Nimono</span></li>
+            <li>食事・止椀・香の物 <span>Rice, Miso, Pickles</span></li>
+            <li>水菓子 <span>Mizugashi</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Breakfast -->
+      <div class="dining__feature dining__feature--breakfast reveal-up">
+        <div class="dining__feature-content">
+          <span class="dining__feature-label">朝食 &mdash; Breakfast</span>
+          <h3 class="dining__feature-title">
+            <span class="dining__feature-title-jp">和朝食</span>
+            <span class="dining__feature-title-en">Traditional Breakfast</span>
+          </h3>
+          <p>
+            炊きたての土鍋ご飯、焼き魚、出汁巻き卵。
+            朝の光とともにいただく和朝食は、一日の始まりを穏やかに彩ります。
+            地元農家から届く野菜と、自家製の漬物をご堪能ください。
+          </p>
+        </div>
+        <div class="dining__feature-image">
+          <img src="images/breakfast.png" alt="和朝食 — 土鍋ご飯と旬の小鉢" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EXPERIENCE (過ごし方) ==================== -->
+  <section class="experience section" id="experience">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="section__header">
+      <span class="section__label reveal-up">Experience</span>
+      <h2 class="section__title reveal-up">
+        <span class="section__title-jp">過ごし方</span>
+        <span class="section__title-en">A Day at Kagetsu</span>
+      </h2>
+    </div>
+
+    <div class="experience__timeline">
+      <div class="experience__line" aria-hidden="true"></div>
+
+      <article class="experience__item reveal-up">
+        <div class="experience__time">15:00</div>
+        <div class="experience__dot" aria-hidden="true"></div>
+        <div class="experience__content">
+          <h3>お出迎え</h3>
+          <p>玄関にて、抹茶と季節の和菓子でお迎えいたします。仲居がお部屋までご案内。</p>
+          <span class="experience__en">Welcome with matcha and seasonal wagashi</span>
+        </div>
+      </article>
+
+      <article class="experience__item reveal-up">
+        <div class="experience__time">16:00</div>
+        <div class="experience__dot" aria-hidden="true"></div>
+        <div class="experience__content">
+          <div class="experience__image-small">
+            <img src="images/tea_ceremony.png" alt="茶道体験" loading="lazy">
+          </div>
+          <h3>茶道体験</h3>
+          <p>茶室「清風庵」にて、裏千家の作法による茶道体験。一碗のお茶に、心を澄ませるひととき。</p>
+          <span class="experience__en">Tea ceremony experience at Seifuan tearoom</span>
+        </div>
+      </article>
+
+      <article class="experience__item reveal-up">
+        <div class="experience__time">17:00</div>
+        <div class="experience__dot" aria-hidden="true"></div>
+        <div class="experience__content">
+          <h3>庭園散策</h3>
+          <p>池泉回遊式庭園を、ゆるりと散策。苔むした石灯籠、水琴窟の音色に耳を傾けて。</p>
+          <span class="experience__en">Stroll through the kaiyushiki garden</span>
+        </div>
+      </article>
+
+      <article class="experience__item reveal-up">
+        <div class="experience__time">18:30</div>
+        <div class="experience__dot" aria-hidden="true"></div>
+        <div class="experience__content">
+          <h3>懐石料理</h3>
+          <p>個室料亭にて、月替わりの懐石を。地酒とともに、旬の味覚をご堪能ください。</p>
+          <span class="experience__en">Kaiseki dinner in a private dining room</span>
+        </div>
+      </article>
+
+      <article class="experience__item reveal-up">
+        <div class="experience__time">21:00</div>
+        <div class="experience__dot" aria-hidden="true"></div>
+        <div class="experience__content">
+          <h3>湯浴み</h3>
+          <p>星空を仰ぎながら露天風呂へ。源泉かけ流しの湯で、一日の疲れを流しましょう。</p>
+          <span class="experience__en">Evening bath under the stars</span>
+        </div>
+      </article>
+
+      <article class="experience__item reveal-up">
+        <div class="experience__time">7:30</div>
+        <div class="experience__dot" aria-hidden="true"></div>
+        <div class="experience__content">
+          <h3>朝の目覚め</h3>
+          <p>朝風呂のあとは、土鍋で炊き上げたご飯と、心づくしの和朝食を。</p>
+          <span class="experience__en">Morning bath followed by traditional breakfast</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== GALLERY (景) ==================== -->
+  <section class="gallery section" id="gallery">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="section__header">
+      <span class="section__label reveal-up">Gallery</span>
+      <h2 class="section__title reveal-up">
+        <span class="section__title-jp">景</span>
+        <span class="section__title-en">Scenes</span>
+      </h2>
+    </div>
+
+    <div class="gallery__track-wrap">
+      <div class="gallery__track" id="galleryTrack">
+        <div class="gallery__item">
+          <img src="images/hero.png" alt="花月の外観" loading="lazy">
+          <span class="gallery__caption">外観 Exterior</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/lobby.png" alt="ロビー" loading="lazy">
+          <span class="gallery__caption">ロビー Lobby</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/room_tatami.png" alt="和室" loading="lazy">
+          <span class="gallery__caption">客室 Guest Room</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/onsen_outdoor.png" alt="露天風呂" loading="lazy">
+          <span class="gallery__caption">露天風呂 Rotenburo</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/kaiseki.png" alt="懐石料理" loading="lazy">
+          <span class="gallery__caption">懐石 Kaiseki</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/garden.png" alt="庭園" loading="lazy">
+          <span class="gallery__caption">庭園 Garden</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/tea_ceremony.png" alt="茶道" loading="lazy">
+          <span class="gallery__caption">茶道 Tea Ceremony</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/exterior_night.png" alt="夜の外観" loading="lazy">
+          <span class="gallery__caption">夜景 Night View</span>
+        </div>
+        <div class="gallery__item">
+          <img src="images/amenity.png" alt="アメニティ" loading="lazy">
+          <span class="gallery__caption">設 Amenities</span>
+        </div>
+      </div>
+      <div class="gallery__drag-hint reveal-up" aria-hidden="true">
+        <span>&larr; Drag to explore &rarr;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SEASONAL (季節) ==================== -->
+  <section class="seasonal section" id="seasonal">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="section__header">
+      <span class="section__label reveal-up">Seasons</span>
+      <h2 class="section__title reveal-up">
+        <span class="section__title-jp">季節</span>
+        <span class="section__title-en">Four Seasons</span>
+      </h2>
+    </div>
+
+    <div class="seasonal__grid">
+      <article class="seasonal__card reveal-up" data-season="spring">
+        <div class="seasonal__card-bg"></div>
+        <div class="seasonal__card-content">
+          <span class="seasonal__card-kanji">春</span>
+          <h3 class="seasonal__card-title">Spring</h3>
+          <p class="seasonal__card-months">3月 &ndash; 5月</p>
+          <p class="seasonal__card-desc">
+            桜が庭園を淡く染め上げ、山菜が食卓を彩る春。
+            花見露天で湯と花の競演をお愉しみください。
+          </p>
+        </div>
+      </article>
+
+      <article class="seasonal__card reveal-up" data-season="summer">
+        <div class="seasonal__card-bg"></div>
+        <div class="seasonal__card-content">
+          <span class="seasonal__card-kanji">夏</span>
+          <h3 class="seasonal__card-title">Summer</h3>
+          <p class="seasonal__card-months">6月 &ndash; 8月</p>
+          <p class="seasonal__card-desc">
+            蛍が舞う初夏の夕べ、清流のせせらぎ。
+            鮎の塩焼きと冷酒で涼を感じるひととき。
+          </p>
+        </div>
+      </article>
+
+      <article class="seasonal__card reveal-up" data-season="autumn">
+        <div class="seasonal__card-bg"></div>
+        <div class="seasonal__card-content">
+          <span class="seasonal__card-kanji">秋</span>
+          <h3 class="seasonal__card-title">Autumn</h3>
+          <p class="seasonal__card-months">9月 &ndash; 11月</p>
+          <p class="seasonal__card-desc">
+            紅葉が錦を織りなす秋。松茸、栗、秋鮭。
+            実りの季節の懐石は、一年で最も華やかです。
+          </p>
+        </div>
+      </article>
+
+      <article class="seasonal__card reveal-up" data-season="winter">
+        <div class="seasonal__card-bg"></div>
+        <div class="seasonal__card-content">
+          <span class="seasonal__card-kanji">冬</span>
+          <h3 class="seasonal__card-title">Winter</h3>
+          <p class="seasonal__card-months">12月 &ndash; 2月</p>
+          <p class="seasonal__card-desc">
+            雪見露天の静寂。囲炉裏端で味わう、
+            蟹と河豚の贅。白銀の世界に、湯けむりが立ちのぼる。
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== ACCESS (アクセス) ==================== -->
+  <section class="access section" id="access">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="section__header">
+      <span class="section__label reveal-up">Access</span>
+      <h2 class="section__title reveal-up">
+        <span class="section__title-jp">交通案内</span>
+        <span class="section__title-en">Getting Here</span>
+      </h2>
+    </div>
+
+    <div class="access__layout">
+      <div class="access__map reveal-up">
+        <div class="access__map-placeholder">
+          <img src="images/exterior_night.png" alt="旅亭 花月 外観" loading="lazy">
+          <div class="access__map-overlay">
+            <span>Map</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="access__info reveal-up">
+        <div class="access__address">
+          <h3>所在地</h3>
+          <address>
+            〒999-0000<br>
+            山形県某市温泉町1-2-3<br>
+            旅亭 花月
+          </address>
+          <p class="access__tel">TEL: <a href="tel:0000-00-0000">0000-00-0000</a></p>
+        </div>
+
+        <div class="access__directions">
+          <h3>アクセス方法</h3>
+          <div class="access__route">
+            <h4>電車でお越しの場合</h4>
+            <p>JR某線 温泉駅下車、送迎バスにて約10分<br>
+            <small>※ご到着時刻をお知らせください。駅までお迎えにあがります。</small></p>
+          </div>
+          <div class="access__route">
+            <h4>お車でお越しの場合</h4>
+            <p>某自動車道 温泉ICより約15分<br>
+            <small>※駐車場30台（無料）</small></p>
+          </div>
+          <div class="access__route">
+            <h4>飛行機でお越しの場合</h4>
+            <p>某空港よりレンタカーまたはバスにて約60分</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== RESERVATION CTA ==================== -->
+  <section class="reservation section" id="reservation">
+    <div class="section__divider" aria-hidden="true"></div>
+    <div class="reservation__inner reveal-up">
+      <div class="reservation__vertical" aria-hidden="true">
+        <span>ご予約</span>
+      </div>
+      <div class="reservation__content">
+        <h2 class="reservation__title">
+          <span class="reservation__title-jp">ご予約・お問い合わせ</span>
+          <span class="reservation__title-en">Reservations</span>
+        </h2>
+        <p class="reservation__desc">
+          花月での滞在をご希望のお客様は、お電話またはオンラインにてご予約を承ります。
+          ご不明な点がございましたら、お気軽にお問い合わせください。
+        </p>
+        <div class="reservation__actions">
+          <a href="tel:0000-00-0000" class="reservation__btn reservation__btn--tel">
+            <span class="reservation__btn-label">お電話</span>
+            <span class="reservation__btn-value">0000-00-0000</span>
+          </a>
+          <a href="#" class="reservation__btn reservation__btn--online">
+            <span class="reservation__btn-label">オンライン予約</span>
+            <span class="reservation__btn-value">Online Booking</span>
+          </a>
+        </div>
+        <p class="reservation__note">
+          受付時間: 9:00〜20:00（年中無休）
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer" id="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo-jp">旅亭 花月</span>
+        <span class="footer__logo-en">RYOTEI KAGETSU</span>
+        <p class="footer__tagline">禅の静寂に、身を委ねる</p>
+      </div>
+
+      <div class="footer__columns">
+        <div class="footer__col">
+          <h4 class="footer__col-title">ご案内</h4>
+          <ul>
+            <li><a href="#concept">趣旨 / Concept</a></li>
+            <li><a href="#rooms">客室 / Rooms</a></li>
+            <li><a href="#onsen">温泉 / Onsen</a></li>
+            <li><a href="#dining">お食事 / Dining</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">お愉しみ</h4>
+          <ul>
+            <li><a href="#experience">過ごし方 / Experience</a></li>
+            <li><a href="#gallery">景 / Gallery</a></li>
+            <li><a href="#seasonal">季節 / Seasons</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">お問い合わせ</h4>
+          <ul>
+            <li><a href="#access">交通案内 / Access</a></li>
+            <li><a href="#reservation">ご予約 / Reserve</a></li>
+            <li><a href="tel:0000-00-0000">TEL: 0000-00-0000</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__address">
+        <address>
+          〒999-0000 山形県某市温泉町1-2-3 旅亭 花月
+        </address>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2026 旅亭 花月 KAGETSU. All rights reserved.</p>
+        <ul class="footer__legal">
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">特定商取引法に基づく表記</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/main.js" defer></script>
+</body>
+</html>
