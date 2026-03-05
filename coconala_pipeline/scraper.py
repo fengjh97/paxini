@@ -8,6 +8,7 @@ Two-phase approach:
 import sys
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
+import os
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -16,38 +17,149 @@ import json
 from config import (
     REQUESTS_URL, BASE_URL, CATEGORIES, USER_AGENT,
     REQUEST_INTERVAL, POSITIVE_KEYWORDS, NEGATIVE_KEYWORDS, MIN_BUDGET,
+    TRACKS, get_track_for_category, get_track_categories,
 )
 from db import init_db, listing_exists, save_listing
 
 
 def parse_budget(budget_str):
-    """Extract numeric budget value from string like '10,000円〜20,000円' or '50000'."""
+    """Extract numeric budget value from string like '3万円〜5万円' or '5千円未満'."""
     if not budget_str:
         return 0
-    clean = budget_str.replace(',', '').replace('，', '')
+    clean = budget_str.replace(',', '').replace('，', '').replace(' ', '')
+
+    # Handle Japanese unit multipliers: 万 = x10000, 千 = x1000
+    # Find all amounts with their position to get the first (minimum) one
+    amounts = []
+    for match in re.finditer(r'(\d+(?:\.\d+)?)\s*万', clean):
+        amounts.append((match.start(), int(float(match.group(1)) * 10000)))
+    for match in re.finditer(r'(\d+(?:\.\d+)?)\s*千', clean):
+        amounts.append((match.start(), int(float(match.group(1)) * 1000)))
+
+    if amounts:
+        amounts.sort(key=lambda x: x[0])  # Sort by position in string
+        return amounts[0][1]  # Return first occurrence (minimum)
+
+    # Fallback: plain numbers (e.g., '10,000円〜20,000円' or '3,000円')
     nums = re.findall(r'\d+', clean)
     if nums:
-        # Return the first (minimum) number
         return int(nums[0])
     return 0
 
 
-def score_listing(title, description, budget_value, proposer_count=0):
-    """Score relevance 0-100 based on keywords, budget, and competition."""
+def score_listing(title, description, budget_value, proposer_count=0, track_id=None):
+    """Score listing using AI (Gemini) with keyword fallback."""
+    # Try AI scoring first
+    ai_result = _score_with_ai(title, description, budget_value, proposer_count, track_id)
+    if ai_result is not None:
+        return ai_result
+
+    # Fallback: keyword-based scoring
+    return _score_with_keywords(title, description, budget_value, proposer_count, track_id)
+
+
+# ─── AI Scoring (Gemini) ─────────────────────────────────────
+
+_gemini_client = None
+
+def _get_gemini_client():
+    global _gemini_client
+    if _gemini_client is not None:
+        return _gemini_client
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        return None
+    try:
+        from google import genai
+        _gemini_client = genai.Client(api_key=api_key)
+        return _gemini_client
+    except ImportError:
+        return None
+
+
+def _score_with_ai(title, description, budget_value, proposer_count, track_id):
+    """Let Gemini evaluate whether this listing is a good fit for us."""
+    client = _get_gemini_client()
+    if client is None:
+        return None
+
+    track = TRACKS.get(track_id, TRACKS["web"])
+
+    prompt = f"""あなたはフリーランスの案件評価AIです。
+以下のココナラ公開依頼を、私たちのスキルセットで「受注すべきか」を0〜100点で評価してください。
+
+## 私たちの能力
+- ツール: Claude Code（AI駆動開発）、Nano Banana Pro（AI画像生成 — Gemini 3 Pro）
+- 得意分野: {track['name']}
+- 強み: {', '.join(track['strengths'])}
+- 価格帯: {json.dumps(track['pricing'], ensure_ascii=False)}
+
+## 案件情報
+- タイトル: {title}
+- 説明: {description[:500]}
+- 予算: {budget_value}円（0=見積り希望）
+- 現在の提案数: {proposer_count}件
+
+## 評価基準（重要度順）
+1. 【最重要】実現可能性: 私たちのツールで実際に納品できるか？
+   - 可能: HTML/CSS/JS制作、Python開発、AI画像生成、文書作成、翻訳
+   - 不可能（0点にすべき）: WordPress/Shopify構築、MQL/PLC/Unity等の専門言語、ハードウェア制御、既存システムの保守・改修（ソースコード読解が必要）
+   - 判断のコツ: 「WordPressから脱却したい」→HTML化なので可能。「WordPressで構築して」→WP専門知識が必要なので不可。
+2. 自動化度: Claude Code/Nano Bananaでどれだけ自動化できるか？高いほど高得点
+3. 競争優位: AI活用で他の提案者より良い提案ができるか？
+4. 収益性: 予算と作業量のバランスは？（見積り希望=価格設定可能なのでプラス評価）
+5. 競争度: 提案数が少ないほど有利
+
+JSONのみで回答してください（説明不要）:
+{{"score": <0-100の整数>, "reason": "<日本語で1行の理由>"}}"""
+
+    try:
+        from google.genai import types
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.1,
+                max_output_tokens=200,
+            ),
+        )
+        text = response.text.strip()
+        # Extract JSON from response
+        json_match = re.search(r'\{[^}]+\}', text)
+        if json_match:
+            result = json.loads(json_match.group())
+            score = int(result.get("score", 0))
+            reason = result.get("reason", "")
+            if reason:
+                print(f"[AI] {score}点 — {reason}", end=" | ", flush=True)
+            return max(0, min(100, score))
+    except Exception as e:
+        print(f"[AI score error: {e}]", end=" ", flush=True)
+
+    return None
+
+
+# ─── Keyword Fallback ─────────────────────────────────────────
+
+def _score_with_keywords(title, description, budget_value, proposer_count, track_id):
+    """Fallback: score based on keyword matching when AI is unavailable."""
     text = f"{title} {description}".lower()
     score = 0
 
-    # Positive keyword matches
-    for kw in POSITIVE_KEYWORDS:
+    if track_id and track_id in TRACKS:
+        pos_kws = TRACKS[track_id]["positive_keywords"]
+        neg_kws = TRACKS[track_id]["negative_keywords"]
+    else:
+        pos_kws = POSITIVE_KEYWORDS
+        neg_kws = NEGATIVE_KEYWORDS
+
+    for kw in pos_kws:
         if kw.lower() in text:
             score += 8
-
-    # Negative keyword penalty
-    for kw in NEGATIVE_KEYWORDS:
+    for kw in neg_kws:
         if kw.lower() in text:
             score -= 15
 
-    # Budget bonus
     if budget_value >= 50000:
         score += 20
     elif budget_value >= 20000:
@@ -57,13 +169,12 @@ def score_listing(title, description, budget_value, proposer_count=0):
     elif budget_value > 0 and budget_value < MIN_BUDGET:
         score -= 10
 
-    # Competition penalty (too many proposers = harder to win)
     if proposer_count > 30:
         score -= 10
     elif proposer_count > 15:
         score -= 5
     elif proposer_count == 0:
-        score += 5  # No competition yet!
+        score += 5
 
     return max(0, min(100, score))
 
@@ -238,19 +349,20 @@ def scrape_listing_detail(listing_id, session=None):
 
 # ─── Combined Pipeline ────────────────────────────────────────
 
-def run_scraper(categories=None, max_pages=2, fetch_details=True, detail_limit=10):
+def run_scraper(categories=None, max_pages=2, fetch_details=True, detail_limit=10, track_ids=None):
     """Main scraper entry point.
 
     Args:
-        categories: dict of {id: name} to scrape
+        categories: dict of {id: name} to scrape (overrides track_ids)
         max_pages: pages per category on list view
         fetch_details: whether to fetch detail pages for top candidates
         detail_limit: max number of detail pages to fetch
+        track_ids: list of track IDs to scrape (e.g., ["web", "documents"])
     """
     init_db()
 
     if categories is None:
-        categories = CATEGORIES
+        categories = get_track_categories(track_ids)
 
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT})
@@ -303,11 +415,13 @@ def run_scraper(categories=None, max_pages=2, fetch_details=True, detail_limit=1
             desc = detail.get("full_description", "")
             budget_value = detail.get("budget_value", 0)
             proposer_count = detail.get("proposer_count", 0)
+            item_track = get_track_for_category(item["category_id"])
             relevance = score_listing(
                 detail.get("title", item["title"]),
                 desc,
                 budget_value,
                 proposer_count,
+                track_id=item_track,
             )
 
             listing = {
@@ -323,6 +437,7 @@ def run_scraper(categories=None, max_pages=2, fetch_details=True, detail_limit=1
                 "deadline": detail.get("deadline", ""),
                 "delivery_date": detail.get("delivery_date", ""),
                 "relevance_score": relevance,
+                "track_id": item_track,
             }
             all_listings.append(listing)
             save_listing(listing)
@@ -334,6 +449,7 @@ def run_scraper(categories=None, max_pages=2, fetch_details=True, detail_limit=1
     else:
         # Quick mode: save with minimal data
         for item in unique_ids:
+            item_track = get_track_for_category(item["category_id"])
             listing = {
                 "id": item["id"],
                 "url": f"{BASE_URL}/requests/{item['id']}",
@@ -345,7 +461,8 @@ def run_scraper(categories=None, max_pages=2, fetch_details=True, detail_limit=1
                 "category_name": item["category_name"],
                 "proposer_count": 0,
                 "deadline": "",
-                "relevance_score": score_listing(item["title"], "", 0),
+                "relevance_score": score_listing(item["title"], "", 0, track_id=item_track),
+                "track_id": item_track,
             }
             all_listings.append(listing)
             save_listing(listing)

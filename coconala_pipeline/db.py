@@ -27,6 +27,7 @@ def init_db():
             status TEXT DEFAULT 'new',
             proposal_generated INTEGER DEFAULT 0,
             demo_generated INTEGER DEFAULT 0,
+            track_id TEXT DEFAULT 'web',
             raw_data TEXT
         )
     """)
@@ -39,6 +40,11 @@ def init_db():
             created_at TEXT DEFAULT (datetime('now','localtime'))
         )
     """)
+    # Migration: add track_id if not present (for existing DBs)
+    try:
+        c.execute("ALTER TABLE listings ADD COLUMN track_id TEXT DEFAULT 'web'")
+    except sqlite3.OperationalError:
+        pass  # Column already exists
     conn.commit()
     conn.close()
 
@@ -59,8 +65,8 @@ def save_listing(listing):
         INSERT OR IGNORE INTO listings
         (id, url, title, description, budget, budget_value,
          category_id, category_name, proposer_count, deadline,
-         relevance_score, raw_data)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         relevance_score, track_id, raw_data)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         listing["id"],
         listing["url"],
@@ -73,6 +79,7 @@ def save_listing(listing):
         listing.get("proposer_count", 0),
         listing.get("deadline", ""),
         listing.get("relevance_score", 0),
+        listing.get("track_id", "web"),
         json.dumps(listing, ensure_ascii=False),
     ))
     inserted = c.rowcount > 0
@@ -81,16 +88,24 @@ def save_listing(listing):
     return inserted
 
 
-def get_new_listings(min_score=0, limit=20):
+def get_new_listings(min_score=0, limit=20, track_id=None):
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
-    c.execute("""
-        SELECT * FROM listings
-        WHERE status = 'new' AND relevance_score >= ?
-        ORDER BY relevance_score DESC, scraped_at DESC
-        LIMIT ?
-    """, (min_score, limit))
+    if track_id:
+        c.execute("""
+            SELECT * FROM listings
+            WHERE status = 'new' AND relevance_score >= ? AND track_id = ?
+            ORDER BY relevance_score DESC, scraped_at DESC
+            LIMIT ?
+        """, (min_score, track_id, limit))
+    else:
+        c.execute("""
+            SELECT * FROM listings
+            WHERE status = 'new' AND relevance_score >= ?
+            ORDER BY relevance_score DESC, scraped_at DESC
+            LIMIT ?
+        """, (min_score, limit))
     rows = [dict(r) for r in c.fetchall()]
     conn.close()
     return rows

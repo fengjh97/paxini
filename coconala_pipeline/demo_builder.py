@@ -9,7 +9,7 @@ sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 import os
 import re
 import json
-from config import OUTPUT_DIR
+from config import OUTPUT_DIR, TRACKS
 from proposal import detect_industry, classify_project
 
 # Industry-specific design presets
@@ -660,8 +660,8 @@ def generate_hero_image(demo_dir, prompt, api_key=None):
     return None
 
 
-def build_demo(listing, proposal_data=None, generate_images=True):
-    """Build demo and save to output directory."""
+def _build_demo_html(listing, proposal_data=None, generate_images=True):
+    """Build HTML demo for web track."""
     listing_id = listing.get("id", "unknown")
     demo_dir = os.path.join(OUTPUT_DIR, f"demo_{listing_id}")
     os.makedirs(demo_dir, exist_ok=True)
@@ -706,6 +706,299 @@ def build_demo(listing, proposal_data=None, generate_images=True):
     }
 
 
+def build_demo(listing, proposal_data=None, generate_images=True):
+    """Build demo based on track_id. Dispatches to track-specific builder."""
+    track_id = listing.get("track_id", "web")
+
+    if track_id == "graphic":
+        return _build_demo_images(listing, proposal_data, generate_images)
+    elif track_id in ("writing", "translation"):
+        return _build_demo_article(listing, proposal_data, track_id)
+    elif track_id == "it_dev":
+        return _build_demo_code(listing, proposal_data)
+    elif track_id == "documents":
+        return _build_demo_document(listing, proposal_data)
+    else:
+        return _build_demo_html(listing, proposal_data, generate_images)
+
+
+def _build_demo_images(listing, proposal_data=None, generate_images=True):
+    """Graphic track: generate 2-3 sample images with AI."""
+    listing_id = listing.get("id", "unknown")
+    demo_dir = os.path.join(OUTPUT_DIR, f"demo_{listing_id}")
+    img_dir = os.path.join(demo_dir, "images")
+    os.makedirs(img_dir, exist_ok=True)
+
+    title = listing.get("title", "")
+    desc = listing.get("description", "")
+
+    # Build prompt from listing content
+    prompt = (
+        f"Create a professional graphic design sample for: {title}. "
+        f"Context: {desc[:200]}. "
+        "High quality, clean design, suitable for commercial use. "
+        "Professional product photography style."
+    )
+
+    generated = []
+    if generate_images:
+        print("    → AI画像生成中 (graphic demo)...", end=" ", flush=True)
+        for i in range(2):
+            img_path = os.path.join(img_dir, f"sample_{i+1}.png")
+            result = generate_hero_image(demo_dir, prompt)
+            if result:
+                os.rename(result, img_path)
+                generated.append(img_path)
+        print(f"{len(generated)}枚生成" if generated else "skipped")
+
+    # Save prompts for reference
+    prompts_file = os.path.join(demo_dir, "image_prompts.json")
+    with open(prompts_file, "w", encoding="utf-8") as f:
+        json.dump({"prompt": prompt, "count": len(generated)}, f, ensure_ascii=False, indent=2)
+
+    return {
+        "demo_dir": demo_dir,
+        "html_path": prompts_file,
+        "hero_image": generated[0] if generated else None,
+        "industry": proposal_data.get("industry", "") if proposal_data else "",
+        "sections": [],
+    }
+
+
+def _build_demo_article(listing, proposal_data=None, track_id="writing"):
+    """Writing/Translation track: generate sample markdown article."""
+    listing_id = listing.get("id", "unknown")
+    demo_dir = os.path.join(OUTPUT_DIR, f"demo_{listing_id}")
+    os.makedirs(demo_dir, exist_ok=True)
+
+    title = listing.get("title", "")
+    desc = listing.get("description", "")
+
+    if track_id == "translation":
+        content = f"""# 翻訳サンプル — {title}
+
+## 原文（サンプル）
+
+> この部分に原文テキストが入ります。実際のご依頼時に原稿をいただき次第、
+> 同様の品質でサンプル翻訳をお見せいたします。
+
+## 翻訳結果（サンプル）
+
+> This is where the translated text will appear. Upon receiving your actual
+> manuscript, we will provide a sample translation of similar quality.
+
+---
+
+**翻訳方針:**
+- 原文の意図を正確に伝える自然な翻訳
+- 専門用語の一貫性チェック済み
+- ネイティブ品質の表現に仕上げ
+
+*サンプルのため、実際のご依頼内容とは異なります。*
+"""
+    else:
+        content = f"""# 記事サンプル — {title}
+
+## はじめに
+
+本記事では、{desc[:100] or title}について解説いたします。
+読者の皆様に分かりやすく、実用的な情報をお届けすることを心がけています。
+
+## ポイント1: 背景と概要
+
+ここに本文が入ります。実際のご依頼をいただき次第、
+ご要望のテーマに沿った高品質な記事を執筆いたします。
+
+## ポイント2: 具体的な方法
+
+- 項目1: 具体的なアクションステップ
+- 項目2: 実践的なアドバイス
+- 項目3: 注意点とコツ
+
+## まとめ
+
+以上が{title}についてのサンプル記事です。
+実際の記事では、リサーチに基づいた正確な情報と、
+読みやすい構成でお届けいたします。
+
+---
+
+*このサンプルは制作クオリティの参考としてご覧ください。*
+"""
+
+    filepath = os.path.join(demo_dir, "sample_article.md")
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(content)
+
+    return {
+        "demo_dir": demo_dir,
+        "html_path": filepath,
+        "hero_image": None,
+        "industry": proposal_data.get("industry", "") if proposal_data else "",
+        "sections": [],
+    }
+
+
+def _build_demo_code(listing, proposal_data=None):
+    """IT/AI dev track: generate README + sample code."""
+    listing_id = listing.get("id", "unknown")
+    demo_dir = os.path.join(OUTPUT_DIR, f"demo_{listing_id}")
+    os.makedirs(demo_dir, exist_ok=True)
+
+    title = listing.get("title", "")
+    desc = listing.get("description", "")
+
+    readme = f"""# {title}
+
+## 概要
+
+{desc[:300] or 'ご依頼内容に基づいたツール/システムです。'}
+
+## 技術スタック
+
+- Python 3.x
+- 必要に応じたライブラリ（requirements.txt に記載）
+
+## セットアップ
+
+```bash
+pip install -r requirements.txt
+python main.py
+```
+
+## 機能
+
+- [ ] 機能1: メイン処理
+- [ ] 機能2: データ入出力
+- [ ] 機能3: エラーハンドリング
+
+## ファイル構成
+
+```
+project/
+├── main.py          # メインスクリプト
+├── config.py        # 設定ファイル
+├── requirements.txt # 依存パッケージ
+└── README.md        # このファイル
+```
+
+## 納品物
+
+- ソースコード一式（GitHub管理）
+- README・使用手順書
+- テストコード
+
+---
+
+*このREADMEはサンプルです。実際のご依頼内容に合わせて作成いたします。*
+"""
+
+    filepath = os.path.join(demo_dir, "README.md")
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(readme)
+
+    return {
+        "demo_dir": demo_dir,
+        "html_path": filepath,
+        "hero_image": None,
+        "industry": proposal_data.get("industry", "") if proposal_data else "",
+        "sections": [],
+    }
+
+
+def _build_demo_document(listing, proposal_data=None):
+    """Documents track: generate outline/structure sample."""
+    listing_id = listing.get("id", "unknown")
+    demo_dir = os.path.join(OUTPUT_DIR, f"demo_{listing_id}")
+    os.makedirs(demo_dir, exist_ok=True)
+
+    title = listing.get("title", "")
+    desc = listing.get("description", "")
+    project_type = proposal_data.get("project_type", "simple_doc") if proposal_data else "simple_doc"
+
+    if project_type == "business_plan":
+        content = f"""# 事業計画書サンプル — {title}
+
+## 目次（構成案）
+
+1. **エグゼクティブサマリー** (1ページ)
+   - 事業概要・ビジョン
+   - 市場機会の概要
+   - 収益見込み
+
+2. **事業概要** (2ページ)
+   - ミッション・ビジョン
+   - 事業内容の詳細
+   - 競合優位性
+
+3. **市場分析** (3ページ)
+   - ターゲット市場の定義
+   - 市場規模・成長率
+   - 競合分析
+
+4. **マーケティング戦略** (2ページ)
+   - ターゲット顧客
+   - 集客チャネル
+   - 価格戦略
+
+5. **収支計画** (2ページ)
+   - 売上予測（3年間）
+   - 経費内訳
+   - 損益分岐点分析
+
+6. **リスク分析** (1ページ)
+   - 想定リスクと対策
+
+---
+
+*この構成案をベースに、ご要望に合わせてカスタマイズいたします。*
+"""
+    else:
+        content = f"""# 資料サンプル — {title}
+
+## 構成案
+
+### スライド1: 表紙
+- タイトル・日付・作成者
+
+### スライド2-3: 背景・課題
+- 現状の課題整理
+- データ・根拠の提示
+
+### スライド4-6: 提案内容
+- 解決策の提示
+- 具体的なアクションプラン
+- スケジュール
+
+### スライド7-8: 効果・期待成果
+- 定量的な効果予測
+- KPI設定
+
+### スライド9: まとめ・次のステップ
+
+---
+
+**デザインイメージ:**
+- クリーンで見やすいレイアウト
+- AI生成の図解・インフォグラフィック
+- ブランドカラーに合わせた配色
+
+*この構成をベースに、ご要望に合わせてカスタマイズいたします。*
+"""
+
+    filepath = os.path.join(demo_dir, "sample_outline.md")
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(content)
+
+    return {
+        "demo_dir": demo_dir,
+        "html_path": filepath,
+        "hero_image": None,
+        "industry": proposal_data.get("industry", "") if proposal_data else "",
+        "sections": [],
+    }
+
+
 if __name__ == "__main__":
     # Test with sample listing
     sample = {
@@ -713,6 +1006,7 @@ if __name__ == "__main__":
         "url": "https://coconala.com/requests/12345",
         "title": "焼肉店のホームページを作成してほしい",
         "description": "焼肉店を経営しています。おしゃれなデザインのホームページが欲しいです。",
+        "track_id": "web",
     }
 
     result = build_demo(sample, {"industry": "飲食店"})
