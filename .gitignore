@@ -27,8 +27,6 @@ generated_images/
 image_gen_progress.log
 
 # === Coconala Pipeline ===
-coconala_pipeline/output/
-coconala_pipeline/coconala.db
 coconala_pipeline/__pycache__/
 
 # === Claude Code ===
