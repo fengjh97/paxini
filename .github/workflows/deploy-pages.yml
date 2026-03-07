@@ -1,0 +1,43 @@
+name: Deploy static websites to GitHub Pages
+
+on:
+  push:
+    branches: ["claude/deploy-static-websites-Go9hw"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Create deployment directory
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r hotel_website _site/hotel_website
+          cp -r salon_website _site/salon_website
+          cp -r yakiniku_website _site/yakiniku_website
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

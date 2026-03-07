@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paxini - ウェブサイトポートフォリオ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #0a0a0a;
+      color: #e8e4df;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .subtitle {
+      font-weight: 300;
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .card {
+      background: #151515;
+      border: 1px solid #222;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #444;
+    }
+    .card-visual {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+    }
+    .card-hotel .card-visual {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #c9b99a;
+    }
+    .card-salon .card-visual {
+      background: linear-gradient(135deg, #2d1b2e, #1a2e1b);
+      color: #d4c5a9;
+    }
+    .card-yakiniku .card-visual {
+      background: linear-gradient(135deg, #2e1a1a, #1a1a1a);
+      color: #c9a088;
+    }
+    .card-body {
+      padding: 1.5rem;
+    }
+    .card-body h2 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .card-body p {
+      font-size: 0.85rem;
+      color: #888;
+      line-height: 1.6;
+    }
+    footer {
+      margin-top: 4rem;
+      font-size: 0.75rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>PAXINI</h1>
+  <p class="subtitle">ウェブサイトポートフォリオ</p>
+  <div class="grid">
+    <a class="card card-hotel" href="hotel_website/index.html">
+      <div class="card-visual">花月 KAGETSU</div>
+      <div class="card-body">
+        <h2>旅亭 花月 KAGETSU</h2>
+        <p>禅の静寂に包まれた、日本の美と心を感じる宿。</p>
+      </div>
+    </a>
+    <a class="card card-salon" href="salon_website/index.html">
+      <div class="card-visual">CLAIR</div>
+      <div class="card-body">
+        <h2>atelier CLAIR | アトリエ クレール</h2>
+        <p>あなたらしさを、もっと美しく。上質な空間で叶える、あなただけのヘアスタイル。</p>
+      </div>
+    </a>
+    <a class="card card-yakiniku" href="yakiniku_website/index.html">
+      <div class="card-visual">SUMIRE</div>
+      <div class="card-body">
+        <h2>炭火焼肉 SUMIRE</h2>
+        <p>厳選されたA5和牛を備長炭で焼く、至高の焼肉体験。</p>
+      </div>
+    </a>
+  </div>
+  <footer>&copy; 2026 Paxini</footer>
+</body>
+</html>
