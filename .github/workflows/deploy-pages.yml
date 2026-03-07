@@ -2,7 +2,7 @@ name: Deploy static websites to GitHub Pages
 
 on:
   push:
-    branches: ["claude/deploy-static-websites-Go9hw"]
+    branches: ["claude/deploy-static-websites-Go9hw", "master"]
   workflow_dispatch:
 
 permissions:
@@ -32,8 +32,12 @@ jobs:
           mkdir -p _site
           cp index.html _site/
           cp -r hotel_website _site/hotel_website
+          rm -rf _site/hotel_website/research
           cp -r salon_website _site/salon_website
+          rm -rf _site/salon_website/research
           cp -r yakiniku_website _site/yakiniku_website
+          rm -rf _site/yakiniku_website/research
+          touch _site/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
