@@ -1,0 +1,22 @@
+{
+    "project_name": "sakura_story",
+    "resolution": "1080p",
+    "style_reference": null,
+    "shots": [
+        {
+            "image_prompt": "A beautiful young woman in a traditional kimono standing under cherry blossom trees, soft sunlight filtering through pink petals, cinematic lighting, photorealistic, 4K quality",
+            "video_prompt": "The woman slowly turns her head and smiles gently, cherry blossom petals drifting down around her, soft wind blowing her hair, cinematic slow motion",
+            "duration": 5
+        },
+        {
+            "image_prompt": "The same young woman walking through a narrow traditional Kyoto alley with wooden houses, warm afternoon light casting long shadows, photorealistic, 4K quality",
+            "video_prompt": "The woman walks slowly forward through the alley, sunlight and shadows play across her face, she looks around with curiosity, smooth tracking shot",
+            "duration": 8
+        },
+        {
+            "image_prompt": "The same young woman sitting at a traditional Japanese tea house, holding a matcha tea cup, serene garden visible through open sliding doors, photorealistic, 4K quality",
+            "video_prompt": "The woman lifts the tea cup gracefully, takes a sip, then looks out at the garden with a peaceful expression, gentle steam rising from the cup",
+            "duration": 5
+        }
+    ]
+}
